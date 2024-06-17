@@ -2,7 +2,7 @@
 export DOCKER_CLI_EXPERIMENTAL=enabled
 
 build () {
-  if ! docker buildx build --push --platform linux/arm64/v8,linux/amd64 --tag "${DOCKER_USER}/nicehash:${1}" .; then
+  if ! docker buildx build --push --platform linux/arm64/v8,linux/amd64 --tag "${DOCKER_USER}/fluvius:${1}" .; then
     echo "Building tag ${1} failed miserably."
     exit 1
   fi
