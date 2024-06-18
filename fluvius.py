@@ -14,14 +14,14 @@ ean_regex = r"^[0-9]+$"
 def getEanStatus(ean):
 
     try:
+        driver = webdriver.Remote(command_executor="http://" + selenium_server + ":4444/wd/hub", options=webdriver.ChromeOptions())
+        driver.get("https://www.fluvius.be/nl/factuur-en-tarieven/vertraging-energiefactuur")
+        
         if not re.match(ean_regex, ean):
           return Response("EAN number is faulty", 400)
 
         #Get server from ENV
         selenium_server = os.environ["SELENIUM_SERVER"]
-        
-        driver = webdriver.Remote(command_executor="http://" + selenium_server + ":4444/wd/hub", options=webdriver.ChromeOptions())
-        driver.get("https://www.fluvius.be/nl/factuur-en-tarieven/vertraging-energiefactuur")
         
         btn = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "fluv-cookies-button-accept-all"))
