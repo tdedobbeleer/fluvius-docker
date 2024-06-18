@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from flask import Flask
+from flask import Flask, Response
 
 import os
 
@@ -43,11 +43,11 @@ def getFluviusDelay():
         text = result.text
 
         if "De gegevens voor deze EAN-code zitten spijtig genoeg geblokkeerd in de systemen.".lower() not in text.lower(): 
-            return 404
+            return Response("Blocked in system.", 404)
         else:
-            return 200
+            return Response("Ean is found in system.", 200)
 
     except KeyError: 
-        return 406
+        return Response("Environment variables missing.", 406)
     finally:
         driver.quit()
