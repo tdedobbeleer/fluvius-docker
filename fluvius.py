@@ -12,16 +12,20 @@ ean_regex = r"^[0-9]+$"
 
 @app.route("/api/fluvius/<ean>/status")
 def getEanStatus(ean):
-
+    #Check inputs
     try:
-        driver = webdriver.Remote(command_executor="http://" + selenium_server + ":4444/wd/hub", options=webdriver.ChromeOptions())
-        driver.get("https://www.fluvius.be/nl/factuur-en-tarieven/vertraging-energiefactuur")
-        
         if not re.match(ean_regex, ean):
           return Response("EAN number is faulty", 400)
 
         #Get server from ENV
         selenium_server = os.environ["SELENIUM_SERVER"]
+    except KeyError: 
+        return Response("Environment variables missing.", 406)
+
+    #if all is well, it's go time
+    try:
+        driver = webdriver.Remote(command_executor="http://" + selenium_server + ":4444/wd/hub", options=webdriver.ChromeOptions())
+        driver.get("https://www.fluvius.be/nl/factuur-en-tarieven/vertraging-energiefactuur")
         
         btn = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "fluv-cookies-button-accept-all"))
@@ -47,7 +51,5 @@ def getEanStatus(ean):
         else:
             return Response("Ean is found in system.", 200)
 
-    except KeyError: 
-        return Response("Environment variables missing.", 406)
     finally:
         driver.quit()
