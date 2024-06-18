@@ -42,7 +42,7 @@ def getFluviusDelay():
 
         text = result.text
 
-        if "De gegevens voor deze EAN-code zitten spijtig genoeg geblokkeerd in de systemen.".lower() not in text.lower(): 
+        if "De gegevens voor deze EAN-code zitten spijtig genoeg geblokkeerd in de systemen.".lower() in text.lower(): 
             return Response("Blocked in system.", 404)
         else:
             return Response("Ean is found in system.", 200)
