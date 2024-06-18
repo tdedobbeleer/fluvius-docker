@@ -5,14 +5,18 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from flask import Flask, Response
 
-import os
+import os, re
 
 app = Flask(__name__)
+ean_regex = r"^[0-9]+$"
 
 @app.route("/api/fluvius/<ean>/status")
 def getEanStatus(ean):
 
     try:
+        if not re.match(ean_regex, ean):
+          return Response("EAN number is faulty", 400)
+
         #Get server from ENV
         selenium_server = os.environ["SELENIUM_SERVER"]
         
