@@ -13,11 +13,14 @@ app = Flask(__name__)
 def getFluviusDelay():
 
     try:
-        driver = webdriver.Remote(command_executor="http://127.0.0.1:4444/wd/hub", options=webdriver.ChromeOptions())
-        driver.get("https://www.fluvius.be/nl/factuur-en-tarieven/vertraging-energiefactuur")
-
         #Get EAN number from ENV
         ean = os.environ["EAN"]
+
+        #Get server from ENV
+        selenium_server = os.environ["SELENIUM_SERVER"]
+        
+        driver = webdriver.Remote(command_executor="http://" + selenium_server + ":4444/wd/hub", options=webdriver.ChromeOptions())
+        driver.get("https://www.fluvius.be/nl/factuur-en-tarieven/vertraging-energiefactuur")
         
         btn = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "fluv-cookies-button-accept-all"))
