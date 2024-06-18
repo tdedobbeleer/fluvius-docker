@@ -6,4 +6,4 @@ RUN pip install selenium flask
 ADD fluvius.py /opt/fluvius.py
 WORKDIR /opt
 
-ENTRYPOINT [ "flash", "--app", "fluvius", "run" ]
+ENTRYPOINT [ "flask", "--app", "fluvius", "run" ]
