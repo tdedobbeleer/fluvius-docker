@@ -9,13 +9,10 @@ import os
 
 app = Flask(__name__)
 
-@app.route("/api/v1/fluvius/delay")
-def getFluviusDelay():
+@app.route("/api/fluvius/<ean>/status")
+def getEanStatus(ean):
 
     try:
-        #Get EAN number from ENV
-        ean = os.environ["EAN"]
-
         #Get server from ENV
         selenium_server = os.environ["SELENIUM_SERVER"]
         
@@ -33,7 +30,6 @@ def getFluviusDelay():
         )
 
         element.send_keys(ean)
-
         driver.find_element(By.ID, "edit-submit").click()
 
         result = WebDriverWait(driver, 10).until(
