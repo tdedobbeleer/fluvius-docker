@@ -1,6 +1,9 @@
-FROM selenium/standalone-chrome:latest
+FROM python:3-alpine
 
 #Python install
-RUN apt update
-RUN apt install python3-pip -y
 RUN pip install selenium flask
+
+ADD fluvius.py /opt/fluvius.py
+WORKDIR /opt
+
+ENTRYPOINT [ "flash", "--app", "fluvius", "run" ]
