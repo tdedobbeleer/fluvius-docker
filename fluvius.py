@@ -5,26 +5,19 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from flask import Flask, Response
 
-import os, re
+import re
 
 app = Flask(__name__)
 ean_regex = r"^[0-9]+$"
 
 @app.route("/api/fluvius/<ean>/status")
 def getEanStatus(ean):
-    #Check inputs
-    try:
-        if not re.match(ean_regex, ean):
+    if not re.match(ean_regex, ean):
           return Response("EAN number is faulty", 400)
-
-        #Get server from ENV
-        selenium_server = os.environ["SELENIUM_SERVER"]
-    except KeyError: 
-        return Response("Environment variables missing.", 406)
 
     #if all is well, it's go time
     try:
-        driver = webdriver.Remote(command_executor="http://" + selenium_server + ":4444/wd/hub", options=webdriver.ChromeOptions())
+        driver = webdriver.Chrome()
         driver.get("https://www.fluvius.be/nl/factuur-en-tarieven/vertraging-energiefactuur")
         
         btn = WebDriverWait(driver, 10).until(
