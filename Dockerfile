@@ -1,8 +1,8 @@
 FROM python:3-alpine
 
 #Deps
-RUN apt update
-RUN apt add chromium chromium-chromedriver
+RUN apk update
+RUN apk add chromium chromium-chromedriver
 
 #Python install
 RUN pip install selenium flask gunicorn
