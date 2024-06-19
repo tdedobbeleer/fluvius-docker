@@ -18,9 +18,10 @@ def getEanStatus(ean):
     #if all is well, it's go time
     try:
         options = webdriver.ChromeOptions()
+        options.add_argument('--headless')
         options.binary_location = '/usr/bin/chromium'
 
-        driver = webdriver.Chrome('/usr/bin/chromedriver', chrome_options=options)
+        driver = webdriver.Chrome('/usr/bin/chromedriver', options=options)
         driver.get("https://www.fluvius.be/nl/factuur-en-tarieven/vertraging-energiefactuur")
         
         btn = WebDriverWait(driver, 10).until(
