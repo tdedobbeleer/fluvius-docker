@@ -18,10 +18,12 @@ def getEanStatus(ean):
     #if all is well, it's go time
     try:
         chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--no-sandbox") 
+        chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument('--headless')
         chrome_options.binary_location = '/usr/bin/chromium'
-
-        driver = webdriver.Chrome('/usr/bin/chromedriver', options=chrome_options)
+        driver_binary = '/usr/bin/chromedriver'
+        driver = webdriver.Chrome(executable_path=driver_binary, options=chrome_options)
         driver.get("https://www.fluvius.be/nl/factuur-en-tarieven/vertraging-energiefactuur")
         
         btn = WebDriverWait(driver, 10).until(
