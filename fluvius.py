@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
 
 from flask import Flask, Response
 
@@ -22,8 +23,8 @@ def getEanStatus(ean):
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument('--headless')
         chrome_options.binary_location = '/usr/bin/chromium'
-        driver_binary = '/usr/bin/chromedriver'
-        driver = webdriver.Chrome(executable_path=driver_binary, options=chrome_options)
+        chrome_service = Service(executable_path='/usr/bin/chromedriver')
+        driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
         driver.get("https://www.fluvius.be/nl/factuur-en-tarieven/vertraging-energiefactuur")
         
         btn = WebDriverWait(driver, 10).until(
