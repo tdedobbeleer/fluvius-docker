@@ -13,7 +13,7 @@ ean_regex = r"^[0-9]+$"
 @app.route("/api/fluvius/<ean>/status")
 def getEanStatus(ean):
     if not re.match(ean_regex, ean):
-          return Response("EAN number is faulty", 400)
+        return Response("EAN number is faulty", 400)
 
     #if all is well, it's go time
     try:
